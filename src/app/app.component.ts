@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { BookService } from './services/book.service';
+import { BookApi } from './classes/interface/book/book.api';
+import { BookView } from './classes/interface/book/book.view';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +14,12 @@ import { BookService } from './services/book.service';
 export class AppComponent {
   title = 'OneToRuleThemAll';
 
-  books!:{_id:string,name:string}[];
+  books!:BookView[];
 
   constructor (private bookService:BookService, private router: Router) {};
 
   ngOnInit() {
-    this.bookService.getBooks().subscribe((data:any)=> {
+    this.bookService.getBooks().subscribe((data:BookApi)=> {
       console.log(data);
       this.books = data.docs;
     })

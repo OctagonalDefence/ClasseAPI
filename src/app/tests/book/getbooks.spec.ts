@@ -99,6 +99,46 @@ describe('AppComponent', () => {
     });
   });
 
+
+
+  it('Enumeració dels llibres', () => {
+    const bookService:BookService = TestBed.inject(BookService);
+    const fixture:ComponentFixture<AppComponent> = TestBed.createComponent(AppComponent);
+    const component:AppComponent = fixture.componentInstance;
+
+    const mockData = {
+      docs:[
+        {
+          "_id": "5cf5805fb53e011a64671582",
+          "name": "The Fellowship Of The Ring"
+        },
+        {
+          "_id": "5cf58077b53e011a64671583",
+          "name": "The Two Towers"
+        },
+        {
+          "_id": "5cf58080b53e011a64671584",
+          "name": "The Return Of The King"
+        }
+    ]};
+
+    spyOn(bookService,"getBooks").and.returnValue(of( mockData ));
+
+    //component.ngOnInit();
+    fixture.detectChanges();
+
+    const compiled:HTMLElement = fixture.nativeElement as HTMLElement;
+    const listItems:HTMLElement[] = compiled.querySelectorAll("tr td:first-child") as unknown as HTMLElement[];
+
+    expect(listItems.length).toBe(mockData.docs.length);
+    let row:number = 0;
+
+    mockData.docs.forEach((book,index) => {
+        row++;
+        expect(listItems[index].textContent).toBe(row.toString());
+    });
+  });
+
 });
 
 
