@@ -3,13 +3,19 @@ import { AppComponent } from '../../app.component';
 import { provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { BookService } from '../../services/book.service';
+import { routes } from '../../app.routes';
+import { provideRouter, Router } from '@angular/router';
 
 
 describe('AppComponent', () => {
+
+  let router: Router;
+  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
+        provideRouter(routes),
         provideHttpClient(),
         BookService
       ]
@@ -39,7 +45,7 @@ describe('AppComponent', () => {
 
     spyOn(bookService,"getBooks").and.returnValue(of( mockData ));
 
-    component.ngOnInit();
+    //component.ngOnInit();
     fixture.detectChanges();
 
     const compiled:HTMLElement = fixture.nativeElement as HTMLElement;
@@ -52,10 +58,12 @@ describe('AppComponent', () => {
     });
   });
 
-  it('Llistat de tots els llibres', () => {
+  it('Es visualitza el botó amb el link correcte', () => {
     const bookService:BookService = TestBed.inject(BookService);
     const fixture:ComponentFixture<AppComponent> = TestBed.createComponent(AppComponent);
     const component:AppComponent = fixture.componentInstance;
+
+    router = TestBed.inject(Router);
 
     const mockData = {
       docs:[
@@ -74,18 +82,23 @@ describe('AppComponent', () => {
     ]};
 
     spyOn(bookService,"getBooks").and.returnValue(of( mockData ));
+    const navigateSpy = spyOn(router,"navigate");
 
     component.ngOnInit();
     fixture.detectChanges();
 
     const compiled:HTMLElement = fixture.nativeElement as HTMLElement;
-    const listItems:HTMLElement[] = compiled.querySelectorAll("td") as unknown as HTMLElement[];
+    const listButtons:HTMLButtonElement[] = compiled.querySelectorAll("td button") as unknown as HTMLButtonElement[];
 
-    expect(listItems.length).toBe(mockData.docs.length);
+    expect(listButtons.length).toBe(mockData.docs.length);
 
     mockData.docs.forEach((book,index) => {
-        expect(listItems[index].textContent).toContain(book.name);
+        listButtons[index].click();
+        fixture.detectChanges();
+        expect(navigateSpy).toHaveBeenCalledWith([`/book/${mockData.docs[index]._id}`]);
     });
   });
 
 });
+
+
