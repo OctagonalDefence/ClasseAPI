@@ -49,7 +49,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
 
     const compiled:HTMLElement = fixture.nativeElement as HTMLElement;
-    const listItems:HTMLElement[] = compiled.querySelectorAll("td") as unknown as HTMLElement[];
+    const listItems:HTMLElement[] = compiled.querySelectorAll("tr td:first-child") as unknown as HTMLElement[];
 
     expect(listItems.length).toBe(mockData.docs.length);
 

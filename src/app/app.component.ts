@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { BookService } from './services/book.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class AppComponent {
 
   books!:{_id:string,name:string}[];
 
-  constructor (private bookService:BookService) {};
+  constructor (private bookService:BookService, private router: Router) {};
 
   ngOnInit() {
     this.bookService.getBooks().subscribe((data:any)=> {
@@ -22,4 +22,9 @@ export class AppComponent {
       this.books = data.docs;
     })
   }
+
+  viewBook(bookId: string) {
+    this.router.navigate([`/book/${bookId}`]);
+  }
+
 }
