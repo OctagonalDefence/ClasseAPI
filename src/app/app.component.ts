@@ -12,9 +12,14 @@ import { BookService } from './services/book.service';
 export class AppComponent {
   title = 'OneToRuleThemAll';
 
+  books!:{_id:string,name:string}[];
+
   constructor (private bookService:BookService) {};
 
   ngOnInit() {
-    this.bookService.getBooks
+    this.bookService.getBooks().subscribe((data:any)=> {
+      console.log(data);
+      this.books = data.docs;
+    })
   }
 }

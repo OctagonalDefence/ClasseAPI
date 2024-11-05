@@ -1,2 +1,7 @@
-
+<table>
+    <tr><th>Name</th></tr>
+@for (book of this.books;track $index) {
+    <tr><td>{{ book.name }}</td></tr>
+}
+</table>
 <router-outlet />
