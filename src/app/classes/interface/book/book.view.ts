@@ -1,5 +1,5 @@
-import { Book } from "../../model/book/book";
-
-export interface BookView extends Book {
+export interface BookView {
+    id: string;
+    name: string;
     row: number;
 }

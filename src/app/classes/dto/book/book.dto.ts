@@ -1,10 +1,17 @@
+// book.dto.ts
 import { BookApi, BookApiJSON } from "../../interface/book/book.api";
 import { BookView } from "../../interface/book/book.view";
-import { Book } from "../../model/book/book";
 
 export class BookDTO {
-    static ToViewBook(book:BookApi):BookView[] {
-        const books: Book[] = book.docs.map((b: BookApiJSON) => Book.fromJSON(b)); // No correcte. La transformació hauria d'estar en un DTO
-        
+    static ToViewBook(book: BookApi): BookView[] {
+        return book.docs.map((b: BookApiJSON, index: number) => BookDTO.fromApiJSON(b, index));
+    }
+
+    private static fromApiJSON(apiBook: BookApiJSON, row: number): BookView {
+        return {
+            id: apiBook._id,
+            name: apiBook.name,
+            row: row + 1
+        };
     }
 }
