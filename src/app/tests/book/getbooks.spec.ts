@@ -149,9 +149,21 @@ describe('AppComponent', () => {
     fixture.detectChanges();
 
     const compiled: HTMLElement = fixture.nativeElement as HTMLElement;
+    console.log(fixture.nativeElement);
     let loadingMessage: HTMLElement = compiled.querySelector("section p") as HTMLElement;
     expect(loadingMessage.textContent).toContain("Loading data...");
 
+  }); 
+
+  it('"Loading data message" disappears', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const component = fixture.componentInstance;
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    let loadingMessage: HTMLElement = fixture.nativeElement.querySelector("section p") as HTMLElement;
+    expect(loadingMessage).toBeFalsy();
   }); 
 });
 

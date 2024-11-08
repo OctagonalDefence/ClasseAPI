@@ -14,7 +14,8 @@ import { BookDTO } from './classes/dto/book/book.dto';
 })
 export class AppComponent {
   title = 'OneToRuleThemAll';
-
+  isLoading: boolean = true;
+  
   books!:BookView[];
 
   constructor (private bookService:BookService, private router: Router) {};
