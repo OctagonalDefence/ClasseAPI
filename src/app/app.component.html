@@ -2,8 +2,9 @@
     <tr><th>Name</th></tr>
 @for (book of this.books;track $index) {
     <tr>
+        <td>{{ book.row }}</td>
         <td>{{ book.name }}</td>
-        <td><button (click)="viewBook(book._id)">View</button></td>
+        <td><button (click)="viewBook(book.id)">View</button></td>
     </tr>
 }
 </table>

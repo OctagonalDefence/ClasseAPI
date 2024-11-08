@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from '../../app.component';
 import { provideHttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BookService } from '../../services/book.service';
 import { routes } from '../../app.routes';
 import { provideRouter, Router } from '@angular/router';
+import { BookApi } from '../../classes/interface/book/book.api';
 
 
 describe('AppComponent', () => {
@@ -43,13 +44,13 @@ describe('AppComponent', () => {
         }
     ]};
 
-    spyOn(bookService,"getBooks").and.returnValue(of( mockData ));
+    spyOn(bookService,"getBooks").and.returnValue(of( mockData  ) as Observable<BookApi>);
 
     //component.ngOnInit();
     fixture.detectChanges();
 
     const compiled:HTMLElement = fixture.nativeElement as HTMLElement;
-    const listItems:HTMLElement[] = compiled.querySelectorAll("tr td:first-child") as unknown as HTMLElement[];
+    const listItems:HTMLElement[] = compiled.querySelectorAll("tr td:nth-child(2)") as unknown as HTMLElement[];
 
     expect(listItems.length).toBe(mockData.docs.length);
 
@@ -81,7 +82,7 @@ describe('AppComponent', () => {
         }
     ]};
 
-    spyOn(bookService,"getBooks").and.returnValue(of( mockData ));
+    spyOn(bookService,"getBooks").and.returnValue(of( mockData ) as Observable<BookApi>);
     const navigateSpy = spyOn(router,"navigate");
 
     component.ngOnInit();
@@ -122,7 +123,7 @@ describe('AppComponent', () => {
         }
     ]};
 
-    spyOn(bookService,"getBooks").and.returnValue(of( mockData ));
+    spyOn(bookService,"getBooks").and.returnValue(of( mockData ) as Observable<BookApi>);
 
     //component.ngOnInit();
     fixture.detectChanges();
@@ -139,6 +140,19 @@ describe('AppComponent', () => {
     });
   });
 
+
+  it('Show "Loading data message"', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const component = fixture.componentInstance;
+
+    component.isLoading = true;
+    fixture.detectChanges();
+
+    const compiled: HTMLElement = fixture.nativeElement as HTMLElement;
+    let loadingMessage: HTMLElement = compiled.querySelector("section p") as HTMLElement;
+    expect(loadingMessage.textContent).toContain("Loading data...");
+
+  }); 
 });
 
 

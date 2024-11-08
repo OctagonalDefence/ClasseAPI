@@ -4,7 +4,20 @@ import { Book } from "../../model/book/book";
 
 export class BookDTO {
     static ToViewBook(book:BookApi):BookView[] {
-        const books: Book[] = book.docs.map((b: BookApiJSON) => Book.fromJSON(b)); // No correcte. La transformació hauria d'estar en un DTO
+        const books: Book[] = book.docs.map((b: BookApiJSON) => BookDTO.fromJSONToBook(b)); 
+   
+        return books.map((b:Book,index:number) => {
+            (b as BookView).row = index + 1;
+            return b as BookView;
+        });
         
     }
+    static fromJSONToBook(b: BookApiJSON): Book {
+        const book = new Book();
+        book.id = b._id;
+        book.name = b.name;
+        return book;
+    }
+
+    
 }
