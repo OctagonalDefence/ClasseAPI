@@ -156,14 +156,36 @@ describe('AppComponent', () => {
   }); 
 
   it('"Loading data message" disappears', () => {
+    console.log('"START Loading data message" disappears');
+    const bookService:BookService = TestBed.inject(BookService);
+    const mockData = {
+      docs:[
+        {
+          "_id": "5cf5805fb53e011a64671582",
+          "name": "The Fellowship Of The Ring"
+        },
+        {
+          "_id": "5cf58077b53e011a64671583",
+          "name": "The Two Towers"
+        },
+        {
+          "_id": "5cf58080b53e011a64671584",
+          "name": "The Return Of The King"
+        }
+    ]};
+
+    spyOn(bookService,"getBooks").and.returnValue(of( mockData ) as Observable<BookApi>);
+
     const fixture = TestBed.createComponent(AppComponent);
     const component = fixture.componentInstance;
+    
 
     component.ngOnInit();
     fixture.detectChanges();
 
     let loadingMessage: HTMLElement = fixture.nativeElement.querySelector("section p") as HTMLElement;
     expect(loadingMessage).toBeFalsy();
+    console.log('"END Loading data message" disappears');
   }); 
 });
 

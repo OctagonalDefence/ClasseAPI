@@ -15,7 +15,7 @@ import { BookDTO } from './classes/dto/book/book.dto';
 export class AppComponent {
   title = 'OneToRuleThemAll';
   isLoading: boolean = true;
-  
+
   books!:BookView[];
 
   constructor (private bookService:BookService, private router: Router) {};
@@ -24,6 +24,8 @@ export class AppComponent {
     this.bookService.getBooks().subscribe((data:BookApi)=> {
       console.log(data);
       this.books = BookDTO.ToViewBook(data);
+      console.log("LOADING API");
+      this.isLoading = false;
     })
   }
 

@@ -8,5 +8,8 @@
     </tr>
 }
 </table>
-<section><p>Loading data...</p></section>
+@if (this.isLoading) {
+    <section><p>Loading data...</p></section>
+}
+
 <router-outlet />
