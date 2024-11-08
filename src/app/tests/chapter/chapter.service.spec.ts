@@ -1,15 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { ChapterService } from '../../services/chapter/chapter.service';
 
 
-describe('BookService', () => {
+describe('Chapter Service', () => {
   let chapterService: ChapterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient()
+        provideHttpClient(),provideHttpClientTesting()
       ]
     });
     chapterService = TestBed.inject(ChapterService);
@@ -21,11 +22,13 @@ describe('BookService', () => {
 
   it('Request has token authentication', () => {
     const mockData = [{}];
-    const httpTestingController:HttpTestingController = TestBed.inject(HttpTestingController);
+    const httpTestingController = TestBed.inject(HttpTestingController);
     
     spyOn(chapterService,"getChapter").and.callThrough();
 
-    chapterService.getChapter().subscribe();
+    chapterService.getChapter().subscribe(data => {
+      expect(data).toEqual(mockData);
+    });
 
     const req = httpTestingController.expectOne("https://the-one-api.dev/v2/chapter");
 

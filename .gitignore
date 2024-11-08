@@ -1,5 +1,7 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+/src/environments
+
 # Compiled output
 /dist
 /tmp
@@ -17,7 +19,7 @@ yarn-error.log
 .classpath
 .c9/
 *.launch
-.settings/
+.settings/apikey: "M-eCiXu3s8oyKKqMlsur",
 *.sublime-workspace
 
 # Visual Studio Code
