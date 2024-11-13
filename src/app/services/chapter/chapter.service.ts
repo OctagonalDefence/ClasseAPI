@@ -11,7 +11,7 @@ export class ChapterService {
 
   constructor(private http: HttpClient) { }
 
-  configureHeaders(): { headers: HttpHeaders } {
+  private configureHeaders(): { headers: HttpHeaders } {
     const headerDict = {
       'Authorization': `Beare ${environment.apikey}`,
       'Content-Type': 'application/json'

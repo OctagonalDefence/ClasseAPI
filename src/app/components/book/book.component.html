@@ -1,1 +1,6 @@
-<p>book works!</p>
+<table>
+    <tr><th>Capítol</th></tr>
+    @for (chapter of selectedChapters; track $index) {
+        <tr><td>{{ chapter.chapterName }}</td></tr>
+    }
+</table>
