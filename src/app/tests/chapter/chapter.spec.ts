@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { BookComponent } from '../../components/book/book.component';
-import { provideRouter, Router } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, provideRouter, Router } from '@angular/router';
 import { routes } from '../../app.routes';
+import { of, Subscription } from 'rxjs';
+import { ChapterService } from '../../services/chapter/chapter.service';
 
 
 describe('Chapter component', () => {
@@ -17,7 +19,12 @@ describe('Chapter component', () => {
   });
 
   it("Get chapters of book", async ()=> {
+    const chapterService: ChapterService = TestBed.inject(ChapterService);
+    console.log("START Get chapters of book");
     const router:Router = TestBed.inject(Router);
+    const route = TestBed.inject(ActivatedRoute);
+
+
     const mockData={
         "docs": [
             {
@@ -52,23 +59,29 @@ describe('Chapter component', () => {
             }
         ]};
 
+    spyOn(chapterService, "getChapter").and.returnValue(of( mockData ));
 
-        const fixture = TestBed.createComponent(BookComponent);
+    spyOn(route.paramMap,"subscribe").and.callFake((fn: (paramMap: any) => void) => {
+      fn(convertToParamMap({id: "5cf5805fb53e011a64671582"}));
+      return new Subscription();
+    })    
+    
+    const fixture = TestBed.createComponent(BookComponent);
 
-        await router.navigate(["/book/5cf5805fb53e011a64671582"]);
-        await fixture.whenStable();
-        fixture.detectChanges();
-        await fixture.whenStable();
+    await router.navigate(["/book/5cf5805fb53e011a64671582"]);
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
 
 
-        const compiled: HTMLElement = fixture.nativeElement as HTMLElement;
-        console.log("BODY CHAPTERS",compiled);
-        const table: HTMLElement = compiled.querySelector("table") as HTMLElement;
+    const compiled: HTMLElement = fixture.nativeElement as HTMLElement;
+    console.log("BODY CHAPTERS",compiled);
+    const table: HTMLElement = compiled.querySelector("table") as HTMLElement;
 
-        const rows: NodeListOf<HTMLElement> = compiled.querySelectorAll("td");
-        expect(table).toBeTruthy();
-        expect(rows.length).toBe(4);
-
+    const rows: NodeListOf<HTMLElement> = compiled.querySelectorAll("td");
+    expect(table).toBeTruthy();
+    expect(rows.length).toBe(4);
+    console.log("END Get chapters of book");
 
   });
 })

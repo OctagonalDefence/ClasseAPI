@@ -13,7 +13,7 @@ export class ChapterService {
 
   private configureHeaders(): { headers: HttpHeaders } {
     const headerDict = {
-      'Authorization': `Beare ${environment.apikey}`,
+      'Authorization': `Bearer ${environment.apikey}`,
       'Content-Type': 'application/json'
     };
 

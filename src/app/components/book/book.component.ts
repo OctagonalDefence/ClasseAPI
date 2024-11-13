@@ -17,6 +17,7 @@ export class BookComponent implements OnInit {
   ngOnInit():void {
     this.route.paramMap.subscribe( parametres => {
       const idBook = parametres.get("id");
+      console.log("GET CHAPTERS NGONINIT",idBook);
       if (idBook) {
         this.getChapters(idBook);
       }
@@ -25,6 +26,7 @@ export class BookComponent implements OnInit {
 
   private getChapters(id:string) {
     this.chapterService.getChapter().subscribe((data:any) => {
+      console.log("GET CHAPTERS SUBSCRIBE",data);
       const allChapters:any[] = data.docs;
       this.selectedChapters = allChapters.filter((chapter) => chapter.book == id);
     });
