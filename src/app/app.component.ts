@@ -3,6 +3,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { BookService } from './services/book.service';
 import { BookApi } from './classes/interface/book/book.api';
 import { BookView } from './classes/interface/book/book.view';
+import { BookDTO } from './classes/dto/book/book.dto';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { BookView } from './classes/interface/book/book.view';
 })
 export class AppComponent {
   title = 'OneToRuleThemAll';
+  isLoading: boolean = true;
 
   books!:BookView[];
 
@@ -21,7 +23,9 @@ export class AppComponent {
   ngOnInit() {
     this.bookService.getBooks().subscribe((data:BookApi)=> {
       console.log(data);
-      this.books = data.docs;
+      this.books = BookDTO.ToViewBook(data);
+      console.log("LOADING API");
+      this.isLoading = false;
     })
   }
 

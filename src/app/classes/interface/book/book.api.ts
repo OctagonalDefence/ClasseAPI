@@ -1,6 +1,6 @@
 import { Book } from "../../model/book/book";
 
-export interface BookApi extends Book {
+export interface BookApi  {
     docs: BookApiJSON[];
 }
 
